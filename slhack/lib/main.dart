@@ -137,8 +137,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-          Container(
-            color: Color.fromRGBO(0, 0, 0, (_counter / 10).clamp(0, 1)),
+          IgnorePointer(
+            child: Container(
+              color: Color.fromRGBO(0, 0, 0, (_counter / 10).clamp(0, 1)),
+            ),
           ),
           ...corruption,
         ],

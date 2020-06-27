@@ -29,7 +29,9 @@ class _BlinkingCursorState extends State<BlinkingCursor> {
 
   @override
   Widget build(BuildContext context) {
-    return Text('█',
-        style: _show ? TextStyle() : TextStyle(color: Colors.transparent));
+    return Text('___█',
+        style: _show
+            ? Theme.of(context).textTheme.bodyText1
+            : TextStyle(color: Colors.transparent));
   }
 }

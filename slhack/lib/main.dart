@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:slhack/command_prompt/command_prompt.dart';
 
 void main() {
   runApp(MyApp());
@@ -104,6 +105,11 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            MaterialButton(
+              child: Text('Command Prompt'),
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => CommandPrompt())),
+            )
           ],
         ),
       ),

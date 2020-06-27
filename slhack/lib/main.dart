@@ -73,10 +73,12 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Text(
               'HELP ME',
               style: TextStyle(
+                  shadows: [Shadow(color: Colors.green[100], blurRadius: 8)],
+                  fontFamily: 'VT323',
                   fontSize:
                       rnd.nextInt(_counter * 10).toDouble() + _counter * 10,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green[(_counter - 3) * 100]),
+                  color:
+                      Colors.green[(900 - (_counter - 2) * 100).clamp(0, 900)]),
             ),
           ));
         }

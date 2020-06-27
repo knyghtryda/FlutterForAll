@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:slhack/command_prompt/command_prompt.dart';
 
@@ -51,7 +53,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final rnd = Random();
   int _counter = 0;
+  List<Widget> corruption = [];
 
   void _incrementCounter() {
     setState(() {
@@ -61,6 +65,22 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
+      if (_counter > 4) {
+        for (int i = 0; (i - 10) < rnd.nextInt(_counter * 10); i++) {
+          corruption.add(Align(
+            alignment:
+                Alignment(rnd.nextDouble() * 2 - 1, rnd.nextDouble() * 2 - 1),
+            child: Text(
+              'HELP ME',
+              style: TextStyle(
+                  fontSize:
+                      rnd.nextInt(_counter * 10).toDouble() + _counter * 10,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green[(_counter - 3) * 100]),
+            ),
+          ));
+        }
+      }
     });
   }
 
@@ -78,40 +98,48 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+      body: Stack(
+        children: [
+          Center(
+            // Center is a layout widget. It takes a single child and positions it
+            // in the middle of the parent.
+            child: Column(
+              // Column is also a layout widget. It takes a list of children and
+              // arranges them vertically. By default, it sizes itself to fit its
+              // children horizontally, and tries to be as tall as its parent.
+              //
+              // Invoke "debug painting" (press "p" in the console, choose the
+              // "Toggle Debug Paint" action from the Flutter Inspector in Android
+              // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+              // to see the wireframe for each widget.
+              //
+              // Column has various properties to control how it sizes itself and
+              // how it positions its children. Here we use mainAxisAlignment to
+              // center the children vertically; the main axis here is the vertical
+              // axis because Columns are vertical (the cross axis would be
+              // horizontal).
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'You have pushed the button this many times:',
+                ),
+                Text(
+                  '$_counter',
+                  style: Theme.of(context).textTheme.headline4,
+                ),
+                MaterialButton(
+                  child: Text('Command Prompt'),
+                  onPressed: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CommandPrompt())),
+                )
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            MaterialButton(
-              child: Text('Command Prompt'),
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CommandPrompt())),
-            )
-          ],
-        ),
+          ),
+          Container(
+            color: Color.fromRGBO(0, 0, 0, (_counter / 10).clamp(0, 1)),
+          ),
+          ...corruption,
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,

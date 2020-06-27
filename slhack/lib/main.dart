@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:slhack/command_prompt/command_prompt.dart';
+import 'package:slhack/mac_os/desktop_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -133,13 +134,21 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text('Command Prompt'),
                   onPressed: () => Navigator.push(context,
                       MaterialPageRoute(builder: (context) => CommandPrompt())),
-                )
+                ),
               ],
             ),
           ),
           Container(
             color: Color.fromRGBO(0, 0, 0, (_counter / 10).clamp(0, 1)),
           ),
+          FlatButton(
+              child: Text('macos desk'),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MacosDesktopScreen()));
+              }),
           ...corruption,
         ],
       ),

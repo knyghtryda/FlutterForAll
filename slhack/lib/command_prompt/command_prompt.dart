@@ -13,26 +13,11 @@ class CommandPrompt extends StatefulWidget {
 
 class _CommandPromptState extends State<CommandPrompt>
     with AfterLayoutMixin<CommandPrompt> {
-  bool promptActive = false;
-
   @override
   void afterFirstLayout(BuildContext context) {
     final gameState = Provider.of<GameState>(context, listen: false);
-    gameState.addLine(Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: TypewriterAnimatedTextKit(
-        onNext: (int, bool) async => await Future.delayed(Duration(seconds: 5)),
-        onFinished: () {
-          setState(() {
-            promptActive = true;
-          });
-        },
-        speed: Duration(milliseconds: 600),
-        isRepeatingAnimation: false,
-        textStyle: Theme.of(context).textTheme.bodyText1,
-        text: ['Hello...', 'Are you there?'],
-      ),
-    ));
+    gameState.addAiLine(['Hello...', 'Are you there?'],
+        textStyle: Theme.of(context).textTheme.bodyText1);
   }
 
   @override
@@ -42,7 +27,7 @@ class _CommandPromptState extends State<CommandPrompt>
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [...gameState.lines, if (promptActive) Prompt()],
+          children: [...gameState.lines, if (gameState.inputActive) Prompt()],
         ),
       ),
     );
@@ -52,6 +37,20 @@ class _CommandPromptState extends State<CommandPrompt>
 class Prompt extends StatelessWidget {
   final TextEditingController controller = TextEditingController();
   final FocusNode focusNode = FocusNode();
+
+  void addTerminalLine(BuildContext context, String text) {
+    final gameState = Provider.of<GameState>(context, listen: false);
+    gameState.addLine(Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: TyperAnimatedTextKit(
+        text: [text],
+        speed: Duration(milliseconds: 20),
+        textStyle: Theme.of(context).textTheme.bodyText1,
+        isRepeatingAnimation: false,
+      ),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -83,14 +82,9 @@ class Prompt extends StatelessWidget {
                 if (input.isNotEmpty) {
                   final gameState =
                       Provider.of<GameState>(context, listen: false);
-                  gameState.addLine(Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(input,
-                        style: Theme.of(context).textTheme.bodyText1),
-                  ));
+                  addTerminalLine(context, gameState.parse(input));
                   controller.clear();
                   focusNode.requestFocus();
-                  print(input);
                 }
               },
             ),

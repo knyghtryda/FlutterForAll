@@ -136,24 +136,28 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider(
-                        create: (_) => GameState(),
-                        child: Theme(
-                            data: ThemeData(
-                              brightness: Brightness.dark,
-                              canvasColor: Colors.black,
-                              textTheme: TextTheme(
-                                bodyText1: TextStyle(
-                                    fontFamily: 'VT323',
-                                    fontSize: 32,
-                                    color: Colors.lightGreenAccent,
-                                    shadows: [
-                                      Shadow(
-                                          color: Colors.lightGreen[200],
-                                          blurRadius: 5)
-                                    ]),
-                              ),
-                            ),
+                      builder: (context) => Theme(
+                        data: ThemeData(
+                          brightness: Brightness.dark,
+                          canvasColor: Colors.black,
+                          textTheme: TextTheme(
+                            bodyText1: TextStyle(
+                                fontFamily: 'VT323',
+                                fontSize: 32,
+                                color: Colors.lightGreenAccent,
+                                shadows: [
+                                  Shadow(
+                                      color: Colors.lightGreen[200],
+                                      blurRadius: 5)
+                                ]),
+                          ),
+                        ),
+                        child: ChangeNotifierProvider(
+                            create: (_) {
+                              var gameState = GameState();
+                              gameState.init();
+                              return gameState;
+                            },
                             child: CommandPrompt()),
                       ),
                     ),

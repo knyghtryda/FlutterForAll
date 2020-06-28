@@ -11,9 +11,16 @@ class _MacDockState extends State<MacDock> {
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      color: Colors.grey[300],
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(3),
+          topRight: Radius.circular(3),
+        ),
+        color: Colors.grey[300].withOpacity(0.5),
+      ),
       child: Row(
-        mainAxisSize: MainAxisSize.max,
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(children: _centerMenus()),
@@ -23,14 +30,16 @@ class _MacDockState extends State<MacDock> {
   }
 
   List<Widget> _centerMenus() => <Widget>[
-        Icon(Icons.touch_app),
-        SizedBox(width: 15),
-        Icon(Icons.face),
-        SizedBox(width: 15),
-        Icon(Icons.format_color_reset),
-        SizedBox(width: 15),
-        Icon(Icons.format_color_reset),
-        SizedBox(width: 15),
-        Icon(Icons.format_color_reset),
+        Image(image: AssetImage('images/app-store-2019-09-25.png'), width: 42),
+        SizedBox(width: 10),
+        Image(
+            image: AssetImage('images/macos-catalina-2019-10-08.png'),
+            width: 42),
+        SizedBox(width: 10),
+        Image(image: AssetImage('images/music-2019-09-25.png'), width: 42),
+        SizedBox(width: 10),
+        Image(image: AssetImage('images/safari-2019-09-25.png'), width: 42),
+        SizedBox(width: 10),
+        Image(image: AssetImage('images/preview-2019-09-25.png'), width: 42),
       ];
 }

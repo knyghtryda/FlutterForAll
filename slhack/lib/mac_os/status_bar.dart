@@ -10,8 +10,8 @@ class _StatusBarState extends State<StatusBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 30,
-      color: Colors.grey[300],
+      height: 25,
+      color: Colors.grey[50],
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -24,25 +24,34 @@ class _StatusBarState extends State<StatusBar> {
   }
 
   List<Widget> _leftMenus() => <Widget>[
-        Icon(Icons.touch_app),
-        SizedBox(width: 10),
-        _macosTextMenu('Finder'),
-        SizedBox(width: 10),
+        SizedBox(width: 20),
+        Image(image: AssetImage('images/company.png'), width: 16),
+        SizedBox(width: 15),
+        _macosTextSelectedMenu('Finder'),
+        SizedBox(width: 15),
         _macosTextMenu('File'),
-        SizedBox(width: 10),
-        _macosTextMenu('Finder'),
+        SizedBox(width: 15),
+        _macosTextMenu('Edit'),
       ];
 
   List<Widget> _rightMenus() => <Widget>[
-        Icon(Icons.touch_app),
+        Image(image: AssetImage('images/wifi.png'), width: 16),
         SizedBox(width: 10),
-        Icon(Icons.face),
+        Image(image: AssetImage('images/clock.png'), width: 16),
         SizedBox(width: 10),
-        Icon(Icons.format_color_reset),
+        Image(image: AssetImage('images/speaker.png'), width: 16),
+        SizedBox(width: 10),
+        Image(image: AssetImage('images/bateries.png'), width: 16),
+        SizedBox(width: 20),
       ];
 
   Widget _macosTextMenu(String data) => Text(
         data,
         style: TextStyle(fontSize: 12),
+      );
+
+  Widget _macosTextSelectedMenu(String data) => Text(
+        data,
+        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
       );
 }

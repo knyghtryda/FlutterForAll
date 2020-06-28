@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:slhack/command_prompt/command_prompt.dart';
 import 'package:slhack/mac_os/desktop_screen.dart';
+import 'package:slhack/state/game_state.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,6 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -132,14 +135,43 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 MaterialButton(
                   child: Text('Command Prompt'),
-                  onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => CommandPrompt())),
-                ),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Theme(
+                        data: ThemeData(
+                          brightness: Brightness.dark,
+                          canvasColor: Colors.black,
+                          textTheme: TextTheme(
+                            bodyText1: TextStyle(
+                                fontFamily: 'VT323',
+                                fontSize: 32,
+                                color: Colors.lightGreenAccent,
+                                shadows: [
+                                  Shadow(
+                                      color: Colors.lightGreen[200],
+                                      blurRadius: 5)
+                                ]),
+                          ),
+                        ),
+                        child: ChangeNotifierProvider(
+                            create: (_) {
+                              var gameState = GameState();
+                              gameState.init();
+                              return gameState;
+                            },
+                            child: CommandPrompt()),
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
-          Container(
-            color: Color.fromRGBO(0, 0, 0, (_counter / 10).clamp(0, 1)),
+          IgnorePointer(
+            child: Container(
+              color: Color.fromRGBO(0, 0, 0, (_counter / 10).clamp(0, 1)),
+            ),
           ),
           FlatButton(
               child: Text('macos desk'),

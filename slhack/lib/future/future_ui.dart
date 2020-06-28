@@ -1,7 +1,9 @@
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
-import 'ui_fake.dart' if (dart.library.html) 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
+
+import 'ui_fake.dart' if (dart.library.html) 'dart:ui' as ui;
 
 class FutureUi extends StatelessWidget {
   const FutureUi({Key key}) : super(key: key);
@@ -30,6 +32,7 @@ class _WebcamPageState extends State<WebcamPage> {
     if (!_isRegistered) {
       _register();
     }
+    _webcamVideoElement.play();
   }
 
   void _register() {

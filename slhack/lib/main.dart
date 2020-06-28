@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:slhack/command_prompt/command_prompt.dart';
+import 'package:slhack/future/future_ui.dart';
 
 void main() {
   runApp(MyApp());
@@ -133,12 +134,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text('Command Prompt'),
                   onPressed: () => Navigator.push(context,
                       MaterialPageRoute(builder: (context) => CommandPrompt())),
+                ),
+                MaterialButton(
+                  child: Text('Future UI'),
+                  onPressed: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => FutureUi())),
                 )
               ],
             ),
           ),
-          Container(
-            color: Color.fromRGBO(0, 0, 0, (_counter / 10).clamp(0, 1)),
+          IgnorePointer(
+            child: Container(
+              color: Color.fromRGBO(0, 0, 0, (_counter / 10).clamp(0, 1)),
+            ),
           ),
           ...corruption,
         ],

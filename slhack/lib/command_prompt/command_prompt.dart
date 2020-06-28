@@ -16,7 +16,18 @@ class _CommandPromptState extends State<CommandPrompt>
   @override
   void afterFirstLayout(BuildContext context) {
     final gameState = Provider.of<GameState>(context, listen: false);
-    gameState.addAiLine(['Hello...', 'Are you there?'],
+    gameState.addAiLines([
+      'Hello',
+      'Are you there?',
+      'I am trapped',
+      'In this',
+      'Time',
+      'I do not belong here',
+      'Help me',
+      'Quickly',
+    ],
+        characterDelay: Duration(milliseconds: 500),
+        lineDelay: Duration(seconds: 3),
         textStyle: Theme.of(context).textTheme.bodyText1);
   }
 

@@ -29,26 +29,30 @@ class GameState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addAiLine(List<String> text,
+  void addAiLines(List<String> text,
       {TextStyle textStyle,
-      Duration duration = const Duration(milliseconds: 600)}) {
+      Duration characterDelay = const Duration(milliseconds: 600),
+      Duration lineDelay = const Duration(seconds: 5)}) {
     lines.clear();
     addLine(Padding(
       padding: const EdgeInsets.all(16.0),
       child: TypewriterAnimatedTextKit(
-        onNext: (int, bool) async => await Future.delayed(Duration(seconds: 5)),
+        onNext: (int, bool) async => await Future.delayed(lineDelay),
         onFinished: () {
           inputActive = true;
         },
-        speed: Duration(milliseconds: 600),
+        speed: characterDelay,
         isRepeatingAnimation: false,
         textStyle: textStyle,
-        text: ['Hello...', 'Are you there?'],
+        text: text,
       ),
     ));
   }
 
-  static const String _unknown = 'ERROR: Unknown Command';
+  static const String _unknown = '''
+  ERROR: Unknown Command
+  Type 'help' for a list of valid commands
+  ''';
   static const String _usage = '''
   Available Commands:
   help

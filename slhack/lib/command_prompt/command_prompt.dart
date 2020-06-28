@@ -39,9 +39,11 @@ class _CommandPromptState extends State<CommandPrompt>
   Widget build(BuildContext context) {
     final gameState = Provider.of<GameState>(context);
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [...gameState.lines, if (promptActive) Prompt()],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [...gameState.lines, if (promptActive) Prompt()],
+        ),
       ),
     );
   }
@@ -78,16 +80,18 @@ class Prompt extends StatelessWidget {
               showCursor: true,
               autofocus: true,
               onSubmitted: (input) {
-                final gameState =
-                    Provider.of<GameState>(context, listen: false);
-                gameState.addLine(Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child:
-                      Text(input, style: Theme.of(context).textTheme.bodyText1),
-                ));
-                controller.clear();
-                focusNode.requestFocus();
-                print(input);
+                if (input.isNotEmpty) {
+                  final gameState =
+                      Provider.of<GameState>(context, listen: false);
+                  gameState.addLine(Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(input,
+                        style: Theme.of(context).textTheme.bodyText1),
+                  ));
+                  controller.clear();
+                  focusNode.requestFocus();
+                  print(input);
+                }
               },
             ),
           ),

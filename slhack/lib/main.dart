@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:slhack/command_prompt/command_prompt.dart';
+import 'package:slhack/state/game_state.dart';
 
 void main() {
   runApp(MyApp());
@@ -131,8 +133,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 MaterialButton(
                   child: Text('Command Prompt'),
-                  onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => CommandPrompt())),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChangeNotifierProvider(
+                        create: (_) => GameState(),
+                        child: Theme(
+                            data: ThemeData(
+                              brightness: Brightness.dark,
+                              canvasColor: Colors.black,
+                              textTheme: TextTheme(
+                                bodyText1: TextStyle(
+                                    fontFamily: 'VT323',
+                                    fontSize: 32,
+                                    color: Colors.lightGreenAccent,
+                                    shadows: [
+                                      Shadow(
+                                          color: Colors.lightGreen[200],
+                                          blurRadius: 5)
+                                    ]),
+                              ),
+                            ),
+                            child: CommandPrompt()),
+                      ),
+                    ),
+                  ),
                 )
               ],
             ),

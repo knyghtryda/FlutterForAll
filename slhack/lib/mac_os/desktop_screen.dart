@@ -49,25 +49,11 @@ class _MacosDesktopScreenState extends State<MacosDesktopScreen> {
                   ),
                   if (!macosState.showTimeMachineWindow)
                     Align(
-                      alignment: Alignment.topRight,
                       child: Padding(
-                        padding: const EdgeInsets.only(right: 15, top: 80),
-                        child: deskMenu(
-                            AssetImage('images/machd.png'), 'Macintosh\nHDD'),
+                        padding: const EdgeInsets.only(top: 60, right: 20),
+                        child: icons(),
                       ),
-                    ),
-                  if (!macosState.showTimeMachineWindow)
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 15, top: 180),
-                        child: InkWell(
-                          child: deskMenu(
-                              AssetImage('images/time-machine-2019-09-25.png'),
-                              'Time\nMachine'),
-                          onTap: macosState.openTimeMachine,
-                        ),
-                      ),
+                      alignment: Alignment.centerRight,
                     ),
                   if (!macosState.showTimeMachineWindow)
                     Align(
@@ -90,11 +76,33 @@ class _MacosDesktopScreenState extends State<MacosDesktopScreen> {
     ));
   }
 
+  Widget icons() {
+    final macosState = Provider.of<MacosState>(context);
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: deskMenu(AssetImage('images/machd.png'), 'Macintosh\nHDD'),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: InkWell(
+            child: deskMenu(AssetImage('images/time-machine-2019-09-25.png'),
+                'Time\nMachine'),
+            onTap: macosState.openTimeMachine,
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget deskMenu(AssetImage assetImg, String text) => Column(
         children: [
           Image(
             image: assetImg, // AssetImage('images/machd.png'),
-            width: 46,
+            width: 80,
           ),
           SizedBox(height: 5),
           Text(

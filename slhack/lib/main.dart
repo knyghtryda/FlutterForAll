@@ -2,10 +2,15 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:slhack/amazon_lex/amazon_lex.dart';
 import 'package:slhack/command_prompt/command_prompt.dart';
+import 'package:slhack/command_prompt/game_state.dart';
 import 'package:slhack/mac_os/desktop_screen.dart';
 import 'package:slhack/state/macos_state.dart';
-import 'package:slhack/state/game_state.dart';
+// import 'package:slhack/state/game_state.dart';
+// import 'package:slhack/mac_os/macos_state.dart';
+import 'package:slhack/win95/win95dk.dart';
+import 'package:slhack/win95/win_state.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,7 +39,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter For All Home Page'),
     );
   }
 }
@@ -61,6 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final rnd = Random();
   int _counter = 0;
   List<Widget> corruption = [];
+  AmazonLex lex = AmazonLex();
 
   void _incrementCounter() {
     setState(() {
@@ -138,8 +144,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text('Command Prompt'),
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => Theme(
+                    PageRouteBuilder(
+                      pageBuilder: (_, a1, a2) => Theme(
                         data: ThemeData(
                           brightness: Brightness.dark,
                           canvasColor: Colors.black,
@@ -165,7 +171,35 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                   ),
-                )
+                ),
+                MaterialButton(
+                  child: Text('Lex Test'),
+                  onPressed: () {
+                    lex.postResponse('where am i');
+                  },
+                ),
+                MaterialButton(
+                  child: Text('Windows 95'),
+                  onPressed: () => Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => ChangeNotifierProvider(
+                              create: (_) => WinState(), child: WinDesk()))),
+                  //builder: (context) => Flutter95App())),
+                ),
+                MaterialButton(
+                    child: Text('macos desk'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChangeNotifierProvider(
+                            create: (_) => MacosState(),
+                            child: MacosDesktopScreen(),
+                          ),
+                        ),
+                      );
+                    }),
               ],
             ),
           ),
@@ -174,19 +208,6 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Color.fromRGBO(0, 0, 0, (_counter / 10).clamp(0, 1)),
             ),
           ),
-          FlatButton(
-              child: Text('macos desk'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChangeNotifierProvider(
-                      create: (_) => MacosState(),
-                      child: MacosDesktopScreen(),
-                    ),
-                  ),
-                );
-              }),
           ...corruption,
         ],
       ),

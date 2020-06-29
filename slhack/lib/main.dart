@@ -16,7 +16,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -173,10 +172,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () {
                     lex.postResponse('where am i');
                   },
-                )
+                ),
                 MaterialButton(
                   child: Text('Windows 95'),
-                  onPressed: () => Navigator.push(context, new MaterialPageRoute(builder: (context)=>Flutter95App())),
+                  onPressed: () => Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => Flutter95App())),
                 ),
               ],
             ),

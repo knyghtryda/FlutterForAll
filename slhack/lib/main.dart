@@ -9,6 +9,8 @@ import 'package:slhack/mac_os/desktop_screen.dart';
 import 'package:slhack/mac_os/macos_state.dart';
 import 'package:slhack/win95/win95page.dart';
 import 'package:slhack/win95/win95dk.dart';
+import 'package:slhack/future/future_ui_mobile.dart';
+import 'package:slhack/future/future_ui_web.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,8 +21,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -198,6 +200,13 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       );
                     }),
+                MaterialButton(
+                  child: Text('Future UI'),
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => FutureUiMobile())),
+                ),
               ],
             ),
           ),

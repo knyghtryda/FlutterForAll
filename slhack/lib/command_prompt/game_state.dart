@@ -80,9 +80,13 @@ class GameState extends ChangeNotifier {
   Available Commands:
   help
   info
-  status
   devices
+  connect
   clear
+  <questions of life>
+  <questions of the universe>
+  <questions of everything>
+  <questions of me>
   ''';
   static const String _info = '''
   Hosaka Armitage-11    Version 1.42 29-Jun-1982

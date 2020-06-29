@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:slhack/mac_os/other_screen.dart';
+import 'package:slhack/final_screen.dart';
 
 class TimeMachineSwiper extends StatelessWidget {
   @override
@@ -34,7 +34,7 @@ class TimeMachineWindow extends StatelessWidget {
             color: Colors.black.withOpacity(0.5),
             child: InkWell(
               onTap: () {
-                Navigator.push(context, RotationRoute(page: Other()));
+                Navigator.push(context, RotationRoute(page: FinalScreen()));
               },
               child: Stack(
                 children: [

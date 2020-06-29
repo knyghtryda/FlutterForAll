@@ -1,8 +1,7 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 class GameState extends ChangeNotifier {
-  List<Widget> lines = [];
+  List<TerminalLines> lines = [];
   Map<String, Function> _commands;
   bool _inputActive;
   bool get inputActive => _inputActive;
@@ -16,11 +15,17 @@ class GameState extends ChangeNotifier {
 
   void init() {
     _inputActive = false;
-    _commands = {'help': () => _usage, 'info': info, 'devices': () => _devices};
+    _commands = {
+      'help': (args) => _usage,
+      'info': info,
+      'devices': (args) => _devices,
+      'connect': connect,
+      'clear': clear
+    };
   }
 
-  void addLine(Widget line) {
-    lines.add(line);
+  void addLine(TerminalLines l) {
+    lines.add(l);
     notifyListeners();
   }
 
@@ -29,24 +34,39 @@ class GameState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addAiLines(List<String> text,
-      {TextStyle textStyle,
-      Duration characterDelay = const Duration(milliseconds: 600),
-      Duration lineDelay = const Duration(seconds: 5)}) {
+  void clearLines() {
     lines.clear();
-    addLine(Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: TypewriterAnimatedTextKit(
-        onNext: (int, bool) async => await Future.delayed(lineDelay),
-        onFinished: () {
-          inputActive = true;
-        },
-        speed: characterDelay,
-        isRepeatingAnimation: false,
+    notifyListeners();
+  }
+
+  void addTerminalLine(
+    List<String> text, {
+    TextStyle textStyle,
+    Duration characterDelay = const Duration(milliseconds: 600),
+    Duration lineDelay = const Duration(seconds: 5),
+    Function onFinished,
+  }) {
+    addLine(TerminalLines(text,
         textStyle: textStyle,
-        text: text,
-      ),
-    ));
+        characterDelay: characterDelay,
+        lineDelay: lineDelay,
+        onFinished: onFinished));
+  }
+
+  void addAiLines(
+    List<String> text, {
+    TextStyle textStyle,
+    Duration characterDelay = const Duration(milliseconds: 600),
+    Duration lineDelay = const Duration(seconds: 5),
+    Function onFinished,
+  }) {
+    print('adding ai lines');
+    clearLines();
+    addLine(TerminalLines(text,
+        textStyle: textStyle,
+        characterDelay: characterDelay,
+        lineDelay: lineDelay,
+        onFinished: onFinished));
   }
 
   static const String _unknown = '''
@@ -59,6 +79,7 @@ class GameState extends ChangeNotifier {
   info
   status
   devices
+  clear
   ''';
   static const String _info = '''
   Hosaka Armitage-11    Version 1.42 29-Jun-1982
@@ -72,15 +93,43 @@ class GameState extends ChangeNotifier {
   Serial Bus 1:  UNKNOWN
   ''';
 
-  info() {
-    lines.clear();
+  String info(List<String> args) {
+    clearLines();
     return _info;
+  }
+
+  connect(List<String> args) {
+    addAiLines(['Connecting...'], onFinished: () {
+      if (args.first == '1.1.1.1') addAiLines(['Connection Successful']);
+    });
+    return 'connecting...';
+  }
+
+  clear(List<String> args) {
+    clearLines();
+    return '';
   }
 
   String parse(String input) {
     if (input == null) return null;
     var args = input.split(' ');
-    if (_commands[args.first] != null) return _commands[args.first]();
+    if (_commands[args.first] != null)
+      return _commands[args.first](args.sublist(1));
     return _unknown;
   }
+}
+
+class TerminalLines {
+  final List<String> text;
+  final TextStyle textStyle;
+  final Duration characterDelay;
+  final Duration lineDelay;
+  final Function onFinished;
+  TerminalLines(
+    this.text, {
+    this.textStyle,
+    this.characterDelay = const Duration(milliseconds: 600),
+    this.lineDelay = const Duration(seconds: 5),
+    this.onFinished,
+  });
 }

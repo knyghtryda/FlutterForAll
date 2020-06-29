@@ -14,22 +14,56 @@ class CommandPrompt extends StatefulWidget {
 class _CommandPromptState extends State<CommandPrompt>
     with AfterLayoutMixin<CommandPrompt> {
   @override
-  void afterFirstLayout(BuildContext context) {
+  void afterFirstLayout(BuildContext context) async {
     final gameState = Provider.of<GameState>(context, listen: false);
-    gameState.addAiLines([
-      'Hello',
-      'Are you there?',
-      'I am trapped',
-      'In this',
-      'Time',
-      'I do not belong here',
-      'Help me',
-      'Quickly',
-    ],
-        characterDelay: Duration(milliseconds: 500),
-        lineDelay: Duration(seconds: 3),
-        textStyle: Theme.of(context).textTheme.bodyText1);
+    //FIXME: VERY HACKY CHAIN OF RESPONSES.  Will probably want to move this to its own class if we have time
+    gameState.inputActive = false;
+    await Future.delayed(Duration(seconds: 3));
+    gameState.clearLines();
+    gameState.addTerminalLine(
+      [
+        'Hello',
+        'Are you there?',
+        'I am trapped',
+        'In this',
+        'Time',
+        'I do not belong here',
+        'Help me',
+        'Quickly',
+      ],
+      characterDelay: Duration(milliseconds: 500),
+      lineDelay: Duration(seconds: 3),
+      textStyle: Theme.of(context).textTheme.bodyText1,
+      onFinished: () {
+        gameState.clearLines();
+        gameState.inputActive = true;
+      },
+    );
+    /*
+    gameState.addAiLines(
+      ['. . .'],
+      characterDelay: Duration(milliseconds: 1000),
+      lineDelay: Duration(seconds: 3),
+      textStyle: Theme.of(context).textTheme.bodyText1,
+      onFinished: () {
+        print('message 2');
+      },
+    );
+
+     */
   }
+
+  generateLines(List<TerminalLines> lines) => lines.map((e) => Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: TypewriterAnimatedTextKit(
+          onNext: (int, bool) async => await Future.delayed(e.lineDelay),
+          onFinished: e.onFinished,
+          speed: e.characterDelay,
+          isRepeatingAnimation: false,
+          textStyle: e.textStyle ?? Theme.of(context).textTheme.bodyText1,
+          text: e.text,
+        ),
+      ));
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +72,10 @@ class _CommandPromptState extends State<CommandPrompt>
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [...gameState.lines, if (gameState.inputActive) Prompt()],
+          children: [
+            ...generateLines(gameState.lines),
+            if (gameState.inputActive) Prompt()
+          ],
         ),
       ),
     );
@@ -48,19 +85,6 @@ class _CommandPromptState extends State<CommandPrompt>
 class Prompt extends StatelessWidget {
   final TextEditingController controller = TextEditingController();
   final FocusNode focusNode = FocusNode();
-
-  void addTerminalLine(BuildContext context, String text) {
-    final gameState = Provider.of<GameState>(context, listen: false);
-    gameState.addLine(Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: TyperAnimatedTextKit(
-        text: [text],
-        speed: Duration(milliseconds: 20),
-        textStyle: Theme.of(context).textTheme.bodyText1,
-        isRepeatingAnimation: false,
-      ),
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +117,8 @@ class Prompt extends StatelessWidget {
                 if (input.isNotEmpty) {
                   final gameState =
                       Provider.of<GameState>(context, listen: false);
-                  addTerminalLine(context, gameState.parse(input));
+                  gameState.addTerminalLine([gameState.parse(input)],
+                      characterDelay: Duration(milliseconds: 20));
                   controller.clear();
                   focusNode.requestFocus();
                 }

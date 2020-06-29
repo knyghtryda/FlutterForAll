@@ -17,8 +17,8 @@ enum DialogState {
 
 enum MessageFormat { PlainText, CustomPayload, SSML, Composite }
 
-const String _accessKey = 'AKIAZNRESYM5WQFFVWF7';
-const String _secretKey = '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';
+const String _accessKey = '';
+const String _secretKey = '';
 
 class AmazonLex {
   Future<LexResponse> postResponse(

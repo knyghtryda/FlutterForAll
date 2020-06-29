@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
+import 'package:timer_builder/timer_builder.dart';
 
 class StatusBar extends StatefulWidget {
   @override
@@ -11,7 +13,13 @@ class _StatusBarState extends State<StatusBar> {
   Widget build(BuildContext context) {
     return Container(
       height: 25,
-      color: Colors.grey[50],
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFFE4E4E4), Color(0xFFA4A4A4)],
+        ),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -34,10 +42,19 @@ class _StatusBarState extends State<StatusBar> {
         _macosTextMenu('Edit'),
       ];
 
+  String getSystemTime() {
+    var now = new DateTime.now();
+    return new DateFormat("H:m:s").format(now);
+  }
+
   List<Widget> _rightMenus() => <Widget>[
         Image(image: AssetImage('images/wifi.png'), width: 16),
         SizedBox(width: 10),
-        Image(image: AssetImage('images/clock.png'), width: 16),
+        TimerBuilder.periodic(Duration(seconds: 1), builder: (context) {
+          return Text(
+            "${getSystemTime()}",
+          );
+        }),
         SizedBox(width: 10),
         Image(image: AssetImage('images/speaker.png'), width: 16),
         SizedBox(width: 10),
@@ -47,11 +64,11 @@ class _StatusBarState extends State<StatusBar> {
 
   Widget _macosTextMenu(String data) => Text(
         data,
-        style: TextStyle(fontSize: 12),
+        style: TextStyle(fontSize: 14),
       );
 
   Widget _macosTextSelectedMenu(String data) => Text(
         data,
-        style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
       );
 }

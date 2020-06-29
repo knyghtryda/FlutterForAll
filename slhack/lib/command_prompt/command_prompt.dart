@@ -2,7 +2,7 @@ import 'package:after_layout/after_layout.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:slhack/state/game_state.dart';
+import 'package:slhack/command_prompt/game_state.dart';
 
 class CommandPrompt extends StatefulWidget {
   CommandPrompt({Key key}) : super(key: key);

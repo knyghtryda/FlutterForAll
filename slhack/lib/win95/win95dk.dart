@@ -13,16 +13,6 @@ class WinDesk extends StatefulWidget {
 }
 
 class _WinDeskState extends State<WinDesk> {
-  bool isShowList = false;
-  bool showStartMenu = false;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    isShowList = false;
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final winState = Provider.of<WinState>(context);
@@ -31,15 +21,17 @@ class _WinDeskState extends State<WinDesk> {
       backgroundColor: Color(0xFF008080),
       body: Stack(
         children: [
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.all(64.0),
+              child: Clippy(),
+            ),
+          ),
           if (winState.showRun)
             Align(
               alignment: Alignment.center,
-              child: WindowsWindow(
-                width: 400,
-                height: 200,
-                child: Container(),
-                title: 'Run',
-              ),
+              child: RunWindow(),
             ),
           Align(
             alignment: Alignment.topLeft,
@@ -206,7 +198,8 @@ class StartMenuButton extends StatelessWidget {
 class WinIcon extends StatelessWidget {
   final Image image;
   final String text;
-  WinIcon(this.image, this.text);
+  final Function onPressed;
+  WinIcon(this.image, this.text, {this.onPressed});
   @override
   Widget build(BuildContext context) {
     return FlatButton(
@@ -227,6 +220,7 @@ class WinIcon extends StatelessWidget {
           )
         ],
       ),
+      onPressed: onPressed,
     );
   }
 }
@@ -251,6 +245,73 @@ class WindowsWindow extends StatelessWidget {
           title: title,
           body: child,
         ),
+      ),
+    );
+  }
+}
+
+class RunWindow extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    WinState winState = Provider.of<WinState>(context);
+    return WindowsWindow(
+      width: 400,
+      height: 200,
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: <Widget>[
+                  Image.asset('images/run.ico', scale: 0.75),
+                  SizedBox(width: 10),
+                  Text('Type the name of a program'),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text('Open:'),
+                  SizedBox(width: 10),
+                  Expanded(child: TextField95()),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Button95(
+                    child: Text('OK'),
+                  ),
+                  SizedBox(width: 15),
+                  Button95(
+                    child: Text('Cancel'),
+                    onTap: () => winState.toggleRun(),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+      title: 'Run',
+    );
+  }
+}
+
+class Clippy extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Image.asset(
+        'images/clippy.png',
+        width: 200,
       ),
     );
   }

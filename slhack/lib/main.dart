@@ -6,8 +6,6 @@ import 'package:slhack/amazon_lex/amazon_lex.dart';
 import 'package:slhack/command_prompt/command_prompt.dart';
 import 'package:slhack/command_prompt/game_state.dart';
 import 'package:slhack/final_screen.dart';
-import 'package:slhack/future/future_ui_mobile.dart';
-import 'package:slhack/future/future_ui_web.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,7 +16,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

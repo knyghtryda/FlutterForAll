@@ -57,13 +57,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.1"
-  audioplayers:
-    dependency: "direct main"
-    description:
-      name: audioplayers
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.15.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -527,13 +520,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.6"
-  uuid:
-    dependency: transitive
-    description:
-      name: uuid
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.0"
   vector_math:
     dependency: transitive
     description:

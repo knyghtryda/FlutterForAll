@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:slhack/amazon_lex/amazon_lex.dart';
 import 'package:slhack/command_prompt/command_prompt.dart';
 import 'package:slhack/state/game_state.dart';
+import 'package:slhack/win95/win95page.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter For All Home Page'),
     );
   }
 }
@@ -172,6 +174,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     lex.postResponse('where am i');
                   },
                 )
+                MaterialButton(
+                  child: Text('Windows 95'),
+                  onPressed: () => Navigator.push(context, new MaterialPageRoute(builder: (context)=>Flutter95App())),
+                ),
               ],
             ),
           ),

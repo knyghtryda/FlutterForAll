@@ -49,13 +49,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-  assets:
-    - win95blue.png
-    - win95logo.png
-    - blue-screen.mp3
-    - microsoft.mp3
-    - winbk.png
-  
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -64,8 +57,14 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - win95blue.png
+    - win95logo.png
+    - blue-screen.mp3
+    - microsoft.mp3
+    - winbk.png
     - images/
-  #   - images/a_dot_ham.jpeg
+
+  #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

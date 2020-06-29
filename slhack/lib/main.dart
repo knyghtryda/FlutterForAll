@@ -182,6 +182,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       new MaterialPageRoute(
                           builder: (context) => Flutter95App())),
                 ),
+                MaterialButton(
+                    child: Text('macos desk'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChangeNotifierProvider(
+                            create: (_) => MacosState(),
+                            child: MacosDesktopScreen(),
+                          ),
+                        ),
+                      );
+                    }),
               ],
             ),
           ),
@@ -190,19 +203,6 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Color.fromRGBO(0, 0, 0, (_counter / 10).clamp(0, 1)),
             ),
           ),
-          FlatButton(
-              child: Text('macos desk'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChangeNotifierProvider(
-                      create: (_) => MacosState(),
-                      child: MacosDesktopScreen(),
-                    ),
-                  ),
-                );
-              }),
           ...corruption,
         ],
       ),

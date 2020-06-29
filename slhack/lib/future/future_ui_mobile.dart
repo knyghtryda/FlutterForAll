@@ -20,7 +20,6 @@ class Message {
 class _FutureUiMobileState extends State<FutureUiMobile>
     with SingleTickerProviderStateMixin {
   Message message;
-  double _end = 0;
 
   @override
   void initState() {
@@ -29,10 +28,17 @@ class _FutureUiMobileState extends State<FutureUiMobile>
   }
 
   void _initMessages() async {
-    await Future.delayed(Duration(seconds: 2));
-    await _showMessage(Message(title: 'FlutterHack', content: 'hello world'));
-    await Future.delayed(Duration(seconds: 1));
-    await _showMessage(Message(title: 'FlutterHack', content: 'hello world2'));
+    final interval = 3;
+    await Future.delayed(Duration(seconds: interval));
+    await _showMessage(Message(title: 'Yan Min', content: 'Hello world'));
+    await Future.delayed(Duration(seconds: interval));
+    await _showMessage(
+        Message(title: 'Kaio C. de Oliveira', content: 'Hello world'));
+    await _showMessage(Message(title: 'Vinicius', content: 'Hello world'));
+    await Future.delayed(Duration(seconds: interval));
+    await _showMessage(Message(title: 'Chiwan Ahn', content: 'Hello world'));
+    await Future.delayed(Duration(seconds: interval));
+    await _showMessage(Message(title: 'Jack Sun', content: 'Hello world'));
   }
 
   Future<void> _showMessage(Message msg) async {
@@ -41,7 +47,7 @@ class _FutureUiMobileState extends State<FutureUiMobile>
     });
     await Future.wait([
       playLocalAsset(),
-      Future.delayed(Duration(seconds: 3)),
+      Future.delayed(Duration(seconds: 4)),
     ]);
 
     setState(() {
@@ -64,27 +70,19 @@ class _FutureUiMobileState extends State<FutureUiMobile>
         child: Stack(
           children: [
             message != null
-                ? TweenAnimationBuilder(
-                    tween: Tween<double>(begin: -500, end: _end),
-                    duration: Duration(seconds: 2),
-                    builder: (context, margin, child) {
-                      return Positioned(
-                        right: margin,
-                        child: SafeArea(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 24, vertical: 24),
-                            constraints: BoxConstraints(maxWidth: 320),
-                            // TODO: show message with animation sliding from right to left
-                            // and dismiss message with sliding from left to right
-                            child: MacAlertMessage(
-                              title: message.title,
-                              message: message.content,
-                            ),
-                          ),
+                ? Positioned(
+                    right: 0,
+                    child: SafeArea(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 24),
+                        width: 350,
+                        child: MacAlertMessage(
+                          title: message.title,
+                          message: message.content,
                         ),
-                      );
-                    },
+                      ),
+                    ),
                   )
                 : Container(),
             Positioned.fill(
@@ -94,9 +92,22 @@ class _FutureUiMobileState extends State<FutureUiMobile>
                 children: [
                   SizedBox(height: 80),
                   Object3D(
-                    size: Size(MediaQuery.of(context).size.width, 280.0),
+                    size: Size(MediaQuery.of(context).size.width, 100.0),
                     zoom: 35.0,
                     path: "assets/bird.obj",
+                  ),
+                  Text(
+                    'THE END',
+                    style: TextStyle(
+                      color: Color.fromRGBO(235, 195, 52, 1),
+                      shadows: [
+                        Shadow(
+                          color: Color.fromRGBO(235, 195, 52, 1),
+                          blurRadius: 10,
+                        )
+                      ],
+                      fontSize: 40,
+                    ),
                   ),
                 ],
               ),

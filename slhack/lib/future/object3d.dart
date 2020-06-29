@@ -45,12 +45,12 @@ class _Object3DState extends State<Object3D> {
     });
     super.initState();
 
-    // timer = Timer.periodic(Duration(milliseconds: 1), (Timer t) => _rotate());
+    timer = Timer.periodic(Duration(milliseconds: 1), (Timer t) => _rotate());
   }
 
   @override
   void dispose() {
-    // timer?.cancel();
+    timer?.cancel();
     super.dispose();
   }
 

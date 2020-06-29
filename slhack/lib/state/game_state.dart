@@ -118,7 +118,10 @@ class GameState extends ChangeNotifier {
     if (_commands[args.first] != null)
       return _commands[args.first](args.sublist(1));
     var response = (await lex.postResponse(input)).message;
-    return response;
+    if (response != null) {
+      return response;
+    }
+    return _unknown;
   }
 }
 

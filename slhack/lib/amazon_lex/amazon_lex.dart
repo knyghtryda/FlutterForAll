@@ -52,12 +52,11 @@ class AmazonLex {
       // If the server did return a 200 OK response,
       // then parse the JSON.
       var value = json.decode(response.body);
-      print(value);
-      return LexResponse.fromJson(json.decode(response.body));
+      return LexResponse.fromJson(value);
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
-      throw Exception('Failed to load lex response');
+      return null;
     }
   }
 }

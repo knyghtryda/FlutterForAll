@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:amazon_cognito_identity_dart_2/sig_v4.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
@@ -17,19 +18,55 @@ enum DialogState {
 
 enum MessageFormat { PlainText, CustomPayload, SSML, Composite }
 
-const String _accessKey = '';
-const String _secretKey = '';
-
 class AmazonLex {
   Future<LexResponse> postResponse(
     String text, {
     String userId = 'testuser123',
   }) async {
+    final userPool = new CognitoUserPool(
+      'us-east-1_mJ2rr10v6',
+      '7ugeoran4o1m1in8vol70p15a5',
+    );
+    final cognitoUser = new CognitoUser('testuser', userPool,
+        clientSecret: '1nr5b3ngac4t91po9nuvgrgtgb4upcbbmcc48s65pd3jrm88rc3t');
+    final authDetails = new AuthenticationDetails(
+      username: 'testuser',
+      password: 'Test1234!',
+    );
+    CognitoUserSession session;
+    try {
+      session = await cognitoUser.authenticateUser(authDetails);
+    } on CognitoUserNewPasswordRequiredException catch (e) {
+      print('New Password Required');
+    } on CognitoUserMfaRequiredException catch (e) {
+      print('MFA Challenge');
+    } on CognitoUserSelectMfaTypeException catch (e) {
+      print('Select MFA Type');
+    } on CognitoUserMfaSetupException catch (e) {
+      print('Setup MFA');
+    } on CognitoUserTotpRequiredException catch (e) {
+      print('TOTP');
+    } on CognitoUserCustomChallengeException catch (e) {
+      print('Custom Challenge');
+    } on CognitoUserConfirmationNecessaryException catch (e) {
+      print('Confirmation Necessary');
+    } on CognitoClientException catch (e) {
+      print('Wrong username/password');
+    } catch (e) {
+      print(e);
+    }
+    print(session.getAccessToken().decodePayload());
+    final credentials = new CognitoCredentials(
+        'us-east-1:c18ae620-6bc0-4e41-af13-a27b2adfe541', userPool);
+    await credentials.getAwsCredentials(session.getIdToken().getJwtToken());
+    //await credentials.getGuestAwsCredentialsId();
+
     AwsSigV4Client client = AwsSigV4Client(
-      _accessKey,
-      _secretKey,
+      credentials.accessKeyId,
+      credentials.secretAccessKey,
       'https://runtime.lex.us-east-1.amazonaws.com',
       region: 'us-east-1',
+      sessionToken: credentials.sessionToken,
       serviceName: 'lex',
     );
     final signedRequest = SigV4Request(
@@ -47,7 +84,7 @@ class AmazonLex {
       headers: signedRequest.headers,
       body: signedRequest.body,
     );
-
+    print('${response.statusCode} - ${response.body}');
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.

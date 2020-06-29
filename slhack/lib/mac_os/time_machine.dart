@@ -6,7 +6,7 @@ class TimeMachineSwiper extends StatelessWidget {
   Widget build(BuildContext context) {
     return Swiper(
       itemBuilder: (BuildContext context, int index) {
-        return TimeMachinaWindow();
+        return TimeMachineWindow();
       },
       itemCount: 10,
       itemWidth: 380.0,
@@ -16,7 +16,7 @@ class TimeMachineSwiper extends StatelessWidget {
   }
 }
 
-class TimeMachinaWindow extends StatelessWidget {
+class TimeMachineWindow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(

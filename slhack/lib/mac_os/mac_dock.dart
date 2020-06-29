@@ -30,16 +30,19 @@ class _MacDockState extends State<MacDock> {
   }
 
   List<Widget> _centerMenus() => <Widget>[
-        Image(image: AssetImage('images/app-store-2019-09-25.png'), width: 42),
+        _dockIcon(AssetImage('images/app-store-2019-09-25.png')),
         SizedBox(width: 10),
-        Image(
-            image: AssetImage('images/macos-catalina-2019-10-08.png'),
-            width: 42),
+        _dockIcon(AssetImage('images/macos-catalina-2019-10-08.png')),
         SizedBox(width: 10),
-        Image(image: AssetImage('images/music-2019-09-25.png'), width: 42),
+        _dockIcon(AssetImage('images/music-2019-09-25.png')),
         SizedBox(width: 10),
-        Image(image: AssetImage('images/safari-2019-09-25.png'), width: 42),
+        _dockIcon(AssetImage('images/safari-2019-09-25.png')),
         SizedBox(width: 10),
-        Image(image: AssetImage('images/preview-2019-09-25.png'), width: 42),
+        _dockIcon(AssetImage('images/preview-2019-09-25.png')),
       ];
+
+  Widget _dockIcon(AssetImage image) => Image(
+        image: image,
+        height: 80,
+      );
 }

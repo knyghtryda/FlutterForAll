@@ -6,7 +6,9 @@ import 'package:slhack/amazon_lex/amazon_lex.dart';
 import 'package:slhack/command_prompt/command_prompt.dart';
 import 'package:slhack/command_prompt/game_state.dart';
 import 'package:slhack/mac_os/desktop_screen.dart';
-import 'package:slhack/mac_os/macos_state.dart';
+import 'package:slhack/state/macos_state.dart';
+// import 'package:slhack/state/game_state.dart';
+// import 'package:slhack/mac_os/macos_state.dart';
 import 'package:slhack/win95/win95dk.dart';
 import 'package:slhack/win95/win_state.dart';
 

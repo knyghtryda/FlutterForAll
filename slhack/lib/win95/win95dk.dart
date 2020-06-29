@@ -1,10 +1,11 @@
-import 'dart:html';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter95/flutter95.dart';
+import 'package:provider/provider.dart';
+import 'package:slhack/win95/win_state.dart';
 
 class WinDesk extends StatefulWidget {
   @override
@@ -24,42 +25,22 @@ class _WinDeskState extends State<WinDesk> {
 
   @override
   Widget build(BuildContext context) {
-    final buttonView = Align(
-      alignment: Alignment.bottomLeft,
-      child: RaisedButton(
-        onPressed: () {
-          setState(() {
-            isShowList = true;
-          });
-        },
-        child: const Text('', style: TextStyle(fontSize: 20)),
-        color: Colors.transparent,
-        textColor: Colors.white,
-        elevation: 5,
-      ),
-    );
-
-    final startupView = Align(
-      alignment: Alignment.bottomLeft,
-      child: RaisedButton(
-        onPressed: () {
-          setState(() {
-            isShowList = false;
-          });
-        },
-        child: Image.asset(
-          "assets/listview.png",
-          fit: BoxFit.contain,
-        ),
-        color: Colors.transparent,
-        elevation: 5,
-      ),
-    );
+    final winState = Provider.of<WinState>(context);
 
     return Scaffold(
       backgroundColor: Color(0xFF008080),
       body: Stack(
         children: [
+          if (winState.showRun)
+            Align(
+              alignment: Alignment.center,
+              child: WindowsWindow(
+                width: 400,
+                height: 200,
+                child: Container(),
+                title: 'Run',
+              ),
+            ),
           Align(
             alignment: Alignment.topLeft,
             child: Padding(
@@ -101,7 +82,7 @@ class _WinDeskState extends State<WinDesk> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (showStartMenu) StartMenu(),
+                  if (winState.showStartMenu) StartMenu(),
                   Button95(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -116,9 +97,7 @@ class _WinDeskState extends State<WinDesk> {
                       ],
                     ),
                     onTap: () {
-                      setState(() {
-                        showStartMenu = !showStartMenu;
-                      });
+                      winState.toggleStartMenu();
                     },
                   ),
                 ],
@@ -148,9 +127,15 @@ class Body extends StatelessWidget {
   }
 }
 
-class StartMenu extends StatelessWidget {
+class StartMenu extends StatefulWidget {
+  @override
+  _StartMenuState createState() => _StartMenuState();
+}
+
+class _StartMenuState extends State<StartMenu> {
   @override
   Widget build(BuildContext context) {
+    WinState winState = Provider.of<WinState>(context);
     return Elevation95(
       child: Container(
         width: 250,
@@ -175,11 +160,19 @@ class StartMenu extends StatelessWidget {
             Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               verticalDirection: VerticalDirection.up,
               children: <Widget>[
                 StartMenuButton(
-                    image: Image.asset('images/shutdown.ico'),
+                    image: Image.asset('images/shutdown.ico', scale: 0.75),
                     text: 'Shutdown'),
+                StartMenuButton(
+                  image: Image.asset('images/run.ico', scale: 0.75),
+                  text: 'Run',
+                  onPressed: () {
+                    winState.toggleRun();
+                  },
+                )
               ],
             ),
           ],
@@ -192,7 +185,8 @@ class StartMenu extends StatelessWidget {
 class StartMenuButton extends StatelessWidget {
   final Widget image;
   final String text;
-  StartMenuButton({this.image, this.text});
+  final Function onPressed;
+  StartMenuButton({@required this.image, @required this.text, this.onPressed});
   @override
   Widget build(BuildContext context) {
     return FlatButton(
@@ -204,6 +198,7 @@ class StartMenuButton extends StatelessWidget {
           Text(text, style: TextStyle(fontSize: 20)),
         ],
       ),
+      onPressed: onPressed,
     );
   }
 }
@@ -231,6 +226,31 @@ class WinIcon extends StatelessWidget {
             ]),
           )
         ],
+      ),
+    );
+  }
+}
+
+class WindowsWindow extends StatelessWidget {
+  final double width;
+  final double height;
+  final Widget child;
+  final String title;
+  WindowsWindow(
+      {@required this.width,
+      @required this.height,
+      @required this.child,
+      this.title = 'My Window'});
+  @override
+  Widget build(BuildContext context) {
+    return Elevation95(
+      child: Container(
+        width: width,
+        height: height,
+        child: Scaffold95(
+          title: title,
+          body: child,
+        ),
       ),
     );
   }

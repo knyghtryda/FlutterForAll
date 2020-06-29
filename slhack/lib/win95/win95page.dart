@@ -38,13 +38,13 @@ class Flutter95App extends StatelessWidget {
           type: Elevation95Type.down,
           child: Column(
             children: <Widget>[
-                SizedBox(
-                  height: 45.0,
-                  child: Image.asset(
-                    "assets/win95logo.png",
-                    fit: BoxFit.contain,
-                  ),
-                ),
+                // SizedBox(
+                //   height: 45.0,
+                //   child: Image.asset(
+                //     "assets/win95logo.png",
+                //     fit: BoxFit.contain,
+                //   ),
+                // ),
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -62,15 +62,17 @@ class Flutter95App extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 4),
-              Text(
-                'Welcome to Windows 95',
-                style: Flutter95.textStyle,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextField95(),
-              ),
-              _buildListView(),
+              SizedBox(
+                  child: Image.asset(
+                    "assets/winbk.png",
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              //   child: TextField95(),
+              // ),
+              //_buildListView(),
             ],
           ),
         ),

@@ -180,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text('Windows 95'),
                   onPressed: () => Navigator.push(
                       context,
-                      new MaterialPageRoute(
+                      MaterialPageRoute(
                           builder: (context) => ChangeNotifierProvider(
                               create: (_) => WinState(), child: WinDesk()))),
                   //builder: (context) => Flutter95App())),

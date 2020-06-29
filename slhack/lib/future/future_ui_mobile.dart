@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:slhack/future/object3d.dart';
 // import 'package:camera/camera.dart';
 
 class FutureUiMobile extends StatefulWidget {
@@ -19,19 +20,12 @@ class Message {
 class _FutureUiMobileState extends State<FutureUiMobile>
     with SingleTickerProviderStateMixin {
   Message message;
-  AnimationController _controller;
-  Animation<Offset> _offsetAnimation;
+  double _end = 0;
 
   @override
   void initState() {
     super.initState();
     _initMessages();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
   }
 
   void _initMessages() async {
@@ -64,23 +58,51 @@ class _FutureUiMobileState extends State<FutureUiMobile>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black87,
-      body: Stack(
-        children: [
-          SafeArea(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-              constraints: BoxConstraints(maxWidth: 300),
-              // TODO: show message with animation sliding from right to left
-              // and dismiss message with sliding from left to right
-              child: message != null
-                  ? MacAlertMessage(
-                      title: message.title,
-                      message: message.content,
-                    )
-                  : Container(),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: Stack(
+          children: [
+            message != null
+                ? TweenAnimationBuilder(
+                    tween: Tween<double>(begin: -500, end: _end),
+                    duration: Duration(seconds: 2),
+                    builder: (context, margin, child) {
+                      return Positioned(
+                        right: margin,
+                        child: SafeArea(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 24, vertical: 24),
+                            constraints: BoxConstraints(maxWidth: 320),
+                            // TODO: show message with animation sliding from right to left
+                            // and dismiss message with sliding from left to right
+                            child: MacAlertMessage(
+                              title: message.title,
+                              message: message.content,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : Container(),
+            Positioned.fill(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: 80),
+                  Object3D(
+                    size: Size(MediaQuery.of(context).size.width, 280.0),
+                    zoom: 35.0,
+                    path: "assets/bird.obj",
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

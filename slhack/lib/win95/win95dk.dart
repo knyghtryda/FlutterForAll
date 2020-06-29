@@ -306,16 +306,20 @@ class RunWindow extends StatelessWidget {
                   Button95(
                     child: Text('OK'),
                     onTap: () {
-                      if (controller.value.text == 'delete clippy') {
+                      if (controller.value.text.toLowerCase() ==
+                              'delete clippy' ||
+                          controller.value.text.toLowerCase() ==
+                              'kill clippy') {
                         print('you deleted clippy!');
                         winState.killClippy();
                         Future.delayed(Duration(seconds: 5)).then(
                           (value) => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ChangeNotifierProvider(
-                                    create: (context) => MacosState(),
-                                    child: MacosDesktopScreen())),
+                              builder: (context) => ChangeNotifierProvider(
+                                  create: (context) => MacosState(),
+                                  child: MacosDesktopScreen()),
+                            ),
                           ),
                         );
                       } else {

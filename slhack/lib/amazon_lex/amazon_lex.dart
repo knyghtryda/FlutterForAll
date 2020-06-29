@@ -58,8 +58,8 @@ class AmazonLex {
     print(session.getAccessToken().decodePayload());
     final credentials = new CognitoCredentials(
         'us-east-1:c18ae620-6bc0-4e41-af13-a27b2adfe541', userPool);
-    await credentials.getAwsCredentials(session.getIdToken().getJwtToken());
-    //await credentials.getGuestAwsCredentialsId();
+    //await credentials.getAwsCredentials(session.getIdToken().getJwtToken());
+    await credentials.getGuestAwsCredentialsId();
 
     AwsSigV4Client client = AwsSigV4Client(
       credentials.accessKeyId,

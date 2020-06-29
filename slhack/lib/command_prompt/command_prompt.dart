@@ -3,6 +3,8 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:slhack/command_prompt/game_state.dart';
+import 'package:slhack/win95/win95dk.dart';
+import 'package:slhack/win95/win_state.dart';
 
 class CommandPrompt extends StatefulWidget {
   CommandPrompt({Key key}) : super(key: key);
@@ -88,6 +90,7 @@ class Prompt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final gameState = Provider.of<GameState>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -115,12 +118,29 @@ class Prompt extends StatelessWidget {
               autofocus: true,
               onSubmitted: (input) async {
                 if (input.isNotEmpty) {
-                  final gameState =
-                      Provider.of<GameState>(context, listen: false);
-                  gameState.addTerminalLine([await gameState.parse(input)],
-                      characterDelay: Duration(milliseconds: 20));
-                  controller.clear();
-                  focusNode.requestFocus();
+                  if (input.toLowerCase() == 'connect arpanet') {
+                    controller.clear();
+                    //gameState.inputActive = false;
+                    gameState.clearLines();
+                    gameState.addAiLines(['Connecting...'],
+                        characterDelay: Duration(milliseconds: 400),
+                        lineDelay: Duration(seconds: 1),
+                        onFinished: () {});
+                    Future.delayed(Duration(seconds: 8))
+                        .then((value) => Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChangeNotifierProvider(
+                                    create: (_) => WinState(),
+                                    child: WinDesk()),
+                              ),
+                            ));
+                  } else {
+                    gameState.addTerminalLine([await gameState.parse(input)],
+                        characterDelay: Duration(milliseconds: 20));
+                    controller.clear();
+                    focusNode.requestFocus();
+                  }
                 }
               },
             ),

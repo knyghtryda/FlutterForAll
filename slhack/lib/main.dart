@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:slhack/command_prompt/command_prompt.dart';
 import 'package:slhack/mac_os/desktop_screen.dart';
+import 'package:slhack/mac_os/macos_state.dart';
 import 'package:slhack/state/game_state.dart';
 
 void main() {
@@ -177,9 +178,14 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('macos desk'),
               onPressed: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MacosDesktopScreen()));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChangeNotifierProvider(
+                      create: (_) => MacosState(),
+                      child: MacosDesktopScreen(),
+                    ),
+                  ),
+                );
               }),
           ...corruption,
         ],

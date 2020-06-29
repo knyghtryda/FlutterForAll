@@ -1,10 +1,13 @@
 import 'dart:math';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter95/flutter95.dart';
 import 'package:provider/provider.dart';
+import 'package:slhack/mac_os/desktop_screen.dart';
+import 'package:slhack/mac_os/macos_state.dart';
 import 'package:slhack/win95/win_state.dart';
 
 class WinDesk extends StatefulWidget {
@@ -21,13 +24,6 @@ class _WinDeskState extends State<WinDesk> {
       backgroundColor: Color(0xFF008080),
       body: Stack(
         children: [
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.all(64.0),
-              child: Clippy(),
-            ),
-          ),
           if (winState.showRun)
             Align(
               alignment: Alignment.center,
@@ -94,6 +90,20 @@ class _WinDeskState extends State<WinDesk> {
                   ),
                 ],
               ),
+            ),
+          ),
+          if (winState.killedClippy)
+            Container(
+              color: Colors.black,
+            ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.all(64.0),
+              child: AnimatedOpacity(
+                  opacity: 1.0,
+                  duration: Duration(seconds: 2),
+                  child: Clippy()),
             ),
           ),
         ],
@@ -251,9 +261,16 @@ class WindowsWindow extends StatelessWidget {
 }
 
 class RunWindow extends StatelessWidget {
+  TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     WinState winState = Provider.of<WinState>(context);
+    controller.addListener(() {
+      if (controller.value.text == 'Delete Clippy') {
+        print('you deleted clippy!');
+      }
+    });
     return WindowsWindow(
       width: 400,
       height: 200,
@@ -277,7 +294,7 @@ class RunWindow extends StatelessWidget {
                 children: [
                   Text('Open:'),
                   SizedBox(width: 10),
-                  Expanded(child: TextField95()),
+                  Expanded(child: TextField95(controller: controller)),
                 ],
               ),
             ),
@@ -288,6 +305,23 @@ class RunWindow extends StatelessWidget {
                 children: [
                   Button95(
                     child: Text('OK'),
+                    onTap: () {
+                      if (controller.value.text == 'delete clippy') {
+                        print('you deleted clippy!');
+                        winState.killClippy();
+                        Future.delayed(Duration(seconds: 5)).then(
+                          (value) => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ChangeNotifierProvider(
+                                    create: (context) => MacosState(),
+                                    child: MacosDesktopScreen())),
+                          ),
+                        );
+                      } else {
+                        winState.toggleRun();
+                      }
+                    },
                   ),
                   SizedBox(width: 15),
                   Button95(
@@ -305,14 +339,49 @@ class RunWindow extends StatelessWidget {
   }
 }
 
-class Clippy extends StatelessWidget {
+class Clippy extends StatefulWidget {
+  @override
+  _ClippyState createState() => _ClippyState();
+}
+
+class _ClippyState extends State<Clippy> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Image.asset(
-        'images/clippy.png',
-        width: 200,
-      ),
+    final winState = Provider.of<WinState>(context);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        if (winState.showClippyText)
+          AnimatedOpacity(
+            opacity: winState.showClippyText ? 1.0 : 0,
+            duration: Duration(milliseconds: 500),
+            child: Container(
+              width: 300,
+              height: 300,
+              decoration: BoxDecoration(
+                color: Color(0xFFFFFFCC),
+                border: Border.all(color: Colors.black, width: 2),
+                borderRadius: BorderRadius.circular(32),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TyperAnimatedTextKit(
+                  text: [winState.clippyLines[winState.clippyTextIndex]],
+                  isRepeatingAnimation: false,
+                  textStyle: TextStyle(fontSize: 18),
+                ),
+              ),
+            ),
+          ),
+        FlatButton(
+          child: Image.asset(
+            'images/clippy.png',
+            width: 200,
+          ),
+          onPressed: () => winState.toggleClippyText(),
+        ),
+      ],
     );
   }
 }

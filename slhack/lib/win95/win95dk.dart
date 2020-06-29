@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter95/flutter95.dart';
 import 'package:provider/provider.dart';
 import 'package:slhack/mac_os/desktop_screen.dart';
-import 'package:slhack/mac_os/macos_state.dart';
+import 'package:slhack/state/macos_state.dart';
 import 'package:slhack/win95/win_state.dart';
 
 class WinDesk extends StatefulWidget {

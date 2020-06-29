@@ -5,12 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:slhack/amazon_lex/amazon_lex.dart';
 import 'package:slhack/command_prompt/command_prompt.dart';
 import 'package:slhack/command_prompt/game_state.dart';
-import 'package:slhack/mac_os/desktop_screen.dart';
-import 'package:slhack/state/macos_state.dart';
-// import 'package:slhack/state/game_state.dart';
-// import 'package:slhack/mac_os/macos_state.dart';
-import 'package:slhack/win95/win95dk.dart';
-import 'package:slhack/win95/win_state.dart';
 
 void main() {
   runApp(MyApp());
@@ -76,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
-      if (_counter > 4) {
+      if (_counter > 3) {
         for (int i = 0; (i - 10) < rnd.nextInt(_counter * 10); i++) {
           corruption.add(Align(
             alignment:
@@ -93,6 +87,35 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ));
         }
+      }
+      if (_counter == 5) {
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (_, a1, a2) => Theme(
+              data: ThemeData(
+                brightness: Brightness.dark,
+                canvasColor: Colors.black,
+                textTheme: TextTheme(
+                  bodyText1: TextStyle(
+                      fontFamily: 'VT323',
+                      fontSize: 32,
+                      color: Colors.lightGreenAccent,
+                      shadows: [
+                        Shadow(color: Colors.lightGreen[200], blurRadius: 5)
+                      ]),
+                ),
+              ),
+              child: ChangeNotifierProvider(
+                  create: (_) {
+                    var gameState = GameState();
+                    gameState.init();
+                    return gameState;
+                  },
+                  child: CommandPrompt()),
+            ),
+          ),
+        );
       }
     });
   }
@@ -140,6 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   '$_counter',
                   style: Theme.of(context).textTheme.headline4,
                 ),
+                /*
                 MaterialButton(
                   child: Text('Command Prompt'),
                   onPressed: () => Navigator.push(
@@ -200,6 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       );
                     }),
+                */
               ],
             ),
           ),

@@ -1,3 +1,6 @@
+import 'dart:html';
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -58,6 +61,31 @@ class _WinDeskState extends State<WinDesk> {
       body: Stack(
         children: [
           Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  WinIcon(
+                      Image.asset(
+                        'images/my_computer.ico',
+                        scale: 0.5,
+                        filterQuality: FilterQuality.none,
+                      ),
+                      'My Computer'),
+                  SizedBox(height: 25),
+                  WinIcon(
+                      Image.asset(
+                        'images/recycle_bin.ico',
+                        scale: 0.5,
+                      ),
+                      'Recycle Bin')
+                ],
+              ),
+            ),
+          ),
+          Align(
             alignment: Alignment.bottomLeft,
             child: Elevation95(
               child: Container(
@@ -73,53 +101,7 @@ class _WinDeskState extends State<WinDesk> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (showStartMenu)
-                    Elevation95(
-                      child: Container(
-                        width: 250,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Container(
-                              height: 400,
-                              width: 50,
-                              color: Colors.grey[600],
-                              child: RotatedBox(
-                                quarterTurns: -1,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Text(
-                                    'Windows 95',
-                                    style: TextStyle(
-                                        fontSize: 40, color: Colors.grey),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              verticalDirection: VerticalDirection.up,
-                              children: <Widget>[
-                                FlatButton(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Image.asset('images/shutdown.ico'),
-                                      SizedBox(width: 10),
-                                      Text(
-                                        'Shutdown',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                  if (showStartMenu) StartMenu(),
                   Button95(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -161,6 +143,94 @@ class Body extends StatelessWidget {
         color: Colors.transparent,
         textColor: Colors.white,
         elevation: 5,
+      ),
+    );
+  }
+}
+
+class StartMenu extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Elevation95(
+      child: Container(
+        width: 250,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Container(
+              height: 400,
+              width: 50,
+              color: Colors.grey[600],
+              child: RotatedBox(
+                quarterTurns: -1,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    'Windows 95',
+                    style: TextStyle(fontSize: 40, color: Colors.grey),
+                  ),
+                ),
+              ),
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              verticalDirection: VerticalDirection.up,
+              children: <Widget>[
+                StartMenuButton(
+                    image: Image.asset('images/shutdown.ico'),
+                    text: 'Shutdown'),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class StartMenuButton extends StatelessWidget {
+  final Widget image;
+  final String text;
+  StartMenuButton({this.image, this.text});
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          image,
+          SizedBox(width: 10),
+          Text(text, style: TextStyle(fontSize: 20)),
+        ],
+      ),
+    );
+  }
+}
+
+class WinIcon extends StatelessWidget {
+  final Image image;
+  final String text;
+  WinIcon(this.image, this.text);
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          image,
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            text,
+            style: TextStyle(fontSize: 13, color: Color(0xFFFAFAFA), shadows: [
+              Shadow(
+                  color: Colors.grey[900],
+                  offset: Offset.fromDirection(pi / 4, 2))
+            ]),
+          )
+        ],
       ),
     );
   }

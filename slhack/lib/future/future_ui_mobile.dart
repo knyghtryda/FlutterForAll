@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:slhack/future/object3d.dart';
-// import 'package:camera/camera.dart';
+
+void audioPlayerHandler(AudioPlayerState value) {}
 
 class FutureUiMobile extends StatefulWidget {
   FutureUiMobile({Key key}) : super(key: key);
@@ -59,7 +60,9 @@ class _FutureUiMobileState extends State<FutureUiMobile>
   }
 
   Future<AudioPlayer> playLocalAsset() async {
-    AudioCache cache = new AudioCache();
+    final audioPlayer = AudioPlayer();
+    audioPlayer.monitorNotificationStateChanges(audioPlayerHandler);
+    final cache = new AudioCache();
     return await cache.play("sound/ios_ding.mp3");
   }
 

@@ -1,17 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter95/flutter95.dart';
 
-// class Flutter95App extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       color: Flutter95.background,
-//       home: MainScreen(),
-//     );
-//   }
-// }
-
 
 class Flutter95App extends StatelessWidget {
   @override

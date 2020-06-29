@@ -62,6 +62,8 @@ flutter:
     - blue-screen.mp3
     - microsoft.mp3
     - winbk.png
+    - Windows_95_Desktop_screenshot.png
+    - listview.png
     - images/
 
   #  - images/a_dot_ham.jpeg

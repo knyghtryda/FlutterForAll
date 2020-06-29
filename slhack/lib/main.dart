@@ -8,6 +8,7 @@ import 'package:slhack/mac_os/desktop_screen.dart';
 import 'package:slhack/mac_os/macos_state.dart';
 import 'package:slhack/state/game_state.dart';
 import 'package:slhack/win95/win95page.dart';
+import 'package:slhack/win95/win95dk.dart';
 
 void main() {
   runApp(MyApp());
@@ -180,7 +181,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () => Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (context) => Flutter95App())),
+                        builder: (context) => WinDesk())),
+                          //builder: (context) => Flutter95App())),
+                          
                 ),
                 MaterialButton(
                     child: Text('macos desk'),

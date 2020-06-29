@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:slhack/amazon_lex/amazon_lex.dart';
 
 class GameState extends ChangeNotifier {
   List<TerminalLines> lines = [];
@@ -10,6 +11,7 @@ class GameState extends ChangeNotifier {
     notifyListeners();
   }
 
+  AmazonLex lex = AmazonLex();
   //flags
   bool _infoChecked;
 
@@ -110,12 +112,13 @@ class GameState extends ChangeNotifier {
     clearLines();
   }
 
-  String parse(String input) {
+  Future<String> parse(String input) async {
     if (input == null) return null;
     var args = input.split(' ');
     if (_commands[args.first] != null)
       return _commands[args.first](args.sublist(1));
-    return _unknown;
+    var response = (await lex.postResponse(input)).message;
+    return response;
   }
 }
 

@@ -113,11 +113,11 @@ class Prompt extends StatelessWidget {
               decoration: null,
               showCursor: true,
               autofocus: true,
-              onSubmitted: (input) {
+              onSubmitted: (input) async {
                 if (input.isNotEmpty) {
                   final gameState =
                       Provider.of<GameState>(context, listen: false);
-                  gameState.addTerminalLine([gameState.parse(input)],
+                  gameState.addTerminalLine([await gameState.parse(input)],
                       characterDelay: Duration(milliseconds: 20));
                   controller.clear();
                   focusNode.requestFocus();

@@ -116,7 +116,7 @@ Map<String, dynamic> _$ResponseCardToJson(ResponseCard instance) =>
 SentimentResponse _$SentimentResponseFromJson(Map<String, dynamic> json) {
   return SentimentResponse(
     sentimentLabel: json['sentimentLabel'] as String,
-    sentimentScore: (json['sentimentScore'] as num)?.toDouble(),
+    sentimentScore: json['sentimentScore'] as String,
   );
 }
 

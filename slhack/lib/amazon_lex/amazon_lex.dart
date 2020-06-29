@@ -103,7 +103,7 @@ class ResponseCard {
 @JsonSerializable(nullable: true)
 class SentimentResponse {
   final String sentimentLabel;
-  final double sentimentScore;
+  final String sentimentScore;
   SentimentResponse({this.sentimentLabel, this.sentimentScore});
   factory SentimentResponse.fromJson(Map<String, dynamic> json) =>
       _$SentimentResponseFromJson(json);

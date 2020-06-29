@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:slhack/mac_os/mac_dock.dart';
-import 'package:slhack/mac_os/macos_state.dart';
+import 'package:slhack/state/macos_state.dart';
 import 'package:slhack/mac_os/status_bar.dart';
 import 'package:slhack/mac_os/time_machine.dart';
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:slhack/mac_os/other_screen.dart';
 
 class TimeMachineSwiper extends StatelessWidget {
   @override
@@ -29,9 +30,102 @@ class TimeMachinaWindow extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-        )
-        //
+          child: Container(
+            color: Colors.black.withOpacity(0.5),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(context, RotationRoute(page: Other()));
+              },
+              child: Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Image(
+                        image: AssetImage(
+                            'images/slhack.png'), // AssetImage('images/machd.png'),
+                        width: 36,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 70, right: 10),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        'Slhack\n.backup', //'Macintosh\nHDD',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 11,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
+
+  Widget windowMenu(AssetImage assetImg, String text) => Column(
+        children: [
+          Image(
+            image: assetImg, // AssetImage('images/machd.png'),
+            width: 46,
+          ),
+          SizedBox(height: 5),
+          Text(
+            text, //'Macintosh\nHDD',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 11,
+              shadows: [
+                Shadow(
+                  blurRadius: 5,
+                  color: Colors.black,
+                  offset: Offset(5, 5),
+                ),
+              ],
+            ),
+          )
+        ],
+      );
+}
+
+class RotationRoute extends PageRouteBuilder {
+  final Widget page;
+  RotationRoute({this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionDuration: Duration(seconds: 1),
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              RotationTransition(
+            turns: Tween<double>(
+              begin: 0.0,
+              end: 1.0,
+            ).animate(
+              CurvedAnimation(
+                parent: animation,
+                curve: Curves.linear,
+              ),
+            ),
+            child: child,
+          ),
+        );
 }

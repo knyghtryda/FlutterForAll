@@ -2,7 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:slhack/command_prompt/command_prompt.dart';
-import 'package:slhack/future/future_ui.dart';
+import 'package:slhack/future/future_ui_mobile.dart';
+import 'package:slhack/future/future_ui_web.dart';
 
 void main() {
   runApp(MyApp());
@@ -138,8 +139,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 MaterialButton(
                   child: Text('Future UI'),
-                  onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => FutureUi())),
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => FutureUiMobile())),
                 )
               ],
             ),

@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:slhack/amazon_lex/amazon_lex.dart';
 import 'package:slhack/command_prompt/command_prompt.dart';
 import 'package:slhack/command_prompt/game_state.dart';
-import 'package:slhack/final_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -164,11 +163,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   '$_counter',
                   style: Theme.of(context).textTheme.headline4,
                 ),
-                MaterialButton(
-                  child: Text('Final Screen'),
-                  onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => FinalScreen())),
-                )
                 /*
                 MaterialButton(
                   child: Text('Command Prompt'),

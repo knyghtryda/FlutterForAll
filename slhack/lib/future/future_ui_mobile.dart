@@ -28,15 +28,18 @@ class _FutureUiMobileState extends State<FutureUiMobile>
   }
 
   void _initMessages() async {
-    final interval = 3;
-    await Future.delayed(Duration(seconds: interval));
+    final interval = 2;
+    await Future.delayed(Duration(seconds: interval * 2));
     await _showMessage(Message(title: 'Yan Min', content: 'Hello world'));
     await Future.delayed(Duration(seconds: interval));
     await _showMessage(
         Message(title: 'Kaio C. de Oliveira', content: 'Hello world'));
     await _showMessage(Message(title: 'Vinicius', content: 'Hello world'));
     await Future.delayed(Duration(seconds: interval));
-    await _showMessage(Message(title: 'Chiwan Ahn', content: 'Hello world'));
+    await _showMessage(Message(
+        title: 'Chiwan Ahn',
+        content:
+            'It was very interesting time to play with my team.🏄 Thank you all🙇‍♂️'));
     await Future.delayed(Duration(seconds: interval));
     await _showMessage(Message(title: 'Jack Sun', content: 'Hello world'));
   }
@@ -76,7 +79,7 @@ class _FutureUiMobileState extends State<FutureUiMobile>
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 24, vertical: 24),
-                        width: 350,
+                        width: 360,
                         child: MacAlertMessage(
                           title: message.title,
                           message: message.content,
@@ -92,7 +95,7 @@ class _FutureUiMobileState extends State<FutureUiMobile>
                 children: [
                   SizedBox(height: 80),
                   Object3D(
-                    size: Size(MediaQuery.of(context).size.width, 100.0),
+                    size: Size(MediaQuery.of(context).size.width, 150.0),
                     zoom: 35.0,
                     path: "assets/bird.obj",
                   ),

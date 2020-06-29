@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:slhack/amazon_lex/amazon_lex.dart';
 import 'package:slhack/command_prompt/command_prompt.dart';
 import 'package:slhack/state/game_state.dart';
 
@@ -59,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final rnd = Random();
   int _counter = 0;
   List<Widget> corruption = [];
+  AmazonLex lex = AmazonLex();
 
   void _incrementCounter() {
     setState(() {
@@ -163,6 +165,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                   ),
+                ),
+                MaterialButton(
+                  child: Text('Lex Test'),
+                  onPressed: () {
+                    lex.postResponse('where am i');
+                  },
                 )
               ],
             ),

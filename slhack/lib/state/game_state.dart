@@ -46,11 +46,12 @@ class GameState extends ChangeNotifier {
     Duration lineDelay = const Duration(seconds: 5),
     Function onFinished,
   }) {
-    addLine(TerminalLines(text,
-        textStyle: textStyle,
-        characterDelay: characterDelay,
-        lineDelay: lineDelay,
-        onFinished: onFinished));
+    if (text != null)
+      addLine(TerminalLines(text,
+          textStyle: textStyle,
+          characterDelay: characterDelay,
+          lineDelay: lineDelay,
+          onFinished: onFinished));
   }
 
   void addAiLines(
@@ -107,7 +108,6 @@ class GameState extends ChangeNotifier {
 
   clear(List<String> args) {
     clearLines();
-    return '';
   }
 
   String parse(String input) {

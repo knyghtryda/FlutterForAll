@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.7+2"
+  amazon_cognito_identity_dart_2:
+    dependency: "direct main"
+    description:
+      name: amazon_cognito_identity_dart_2
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.14"
   analyzer:
     dependency: transitive
     description:
@@ -221,6 +228,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.14.0+3"
+  http:
+    dependency: "direct main"
+    description:
+      name: http
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.12.1"
   http_multi_server:
     dependency: transitive
     description:
@@ -256,6 +270,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  json_serializable:
+    dependency: "direct main"
+    description:
+      name: json_serializable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.3.0"
   logging:
     dependency: transitive
     description:
@@ -380,6 +401,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  source_gen:
+    dependency: transitive
+    description:
+      name: source_gen
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.5"
   source_span:
     dependency: transitive
     description:

@@ -71,31 +71,6 @@ class TimeMachineWindow extends StatelessWidget {
       ],
     );
   }
-
-  Widget windowMenu(AssetImage assetImg, String text) => Column(
-        children: [
-          Image(
-            image: assetImg, // AssetImage('images/machd.png'),
-            width: 46,
-          ),
-          SizedBox(height: 5),
-          Text(
-            text, //'Macintosh\nHDD',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 11,
-              shadows: [
-                Shadow(
-                  blurRadius: 5,
-                  color: Colors.black,
-                  offset: Offset(5, 5),
-                ),
-              ],
-            ),
-          )
-        ],
-      );
 }
 
 class RotationRoute extends PageRouteBuilder {
